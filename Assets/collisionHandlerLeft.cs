@@ -29,6 +29,17 @@ public class collisionHandlerLeft : MonoBehaviour
             transform.Translate(new Vector3(-0.04f, 0, 0));
             GetComponent<Renderer>().material.color = Color.red;
         }
+        if (OVRInput.GetDown(OVRInput.Button.Three))
+        {
+
+            transform.localScale += new Vector3(-0.004F, 0, -0.004F);
+            GetComponent<Renderer>().material.color = Color.red;
+        }
+        if (OVRInput.GetDown(OVRInput.Button.Four))
+        {
+            transform.localScale += new Vector3(0.004F, 0, 0.004F);
+            GetComponent<Renderer>().material.color = Color.red;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
