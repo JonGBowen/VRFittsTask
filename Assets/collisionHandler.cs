@@ -43,6 +43,6 @@ public class collisionHandler : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        GetComponent<Renderer>().material.color = Color.red;
+        GetComponent<Renderer>().material.color = Color.yellow;
     }
 }
