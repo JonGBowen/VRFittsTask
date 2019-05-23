@@ -17,8 +17,9 @@ public class TargetEventManager : MonoBehaviour
     
     private void OnTriggerEnter(Collider col)
     {
-        if (lastTappedTargetID == 0)
+        if (GameObject.Find("TableOverlord").GetComponent<TableController>().lastTargetTapped != targetID)
         {
+            GameObject.Find("TableOverlord").GetComponent<TableController>().lastTargetTapped = targetID;
             if (col.gameObject.name == "hands:b_r_index3")
             {
                 GetComponent<Renderer>().material.color = Color.red;

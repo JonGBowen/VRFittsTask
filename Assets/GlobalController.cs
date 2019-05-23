@@ -1,10 +1,9 @@
-﻿using FittsTask;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UXF;
 
-namespace FittsTask
+namespace Scenes
 {
 
     public class ExperimentGenerator : MonoBehaviour
@@ -20,7 +19,7 @@ namespace FittsTask
             // create two blocks
             Block practiceBlock = session.CreateBlock(numPracticeTrials);
             Block block = session.CreateBlock(angles.Length * targetSizes.Length);
-          
+
             // add catch trials
             MakePracticeTrials(practiceBlock, angles);
             MakeTrials(block, angles, targetSizes);
