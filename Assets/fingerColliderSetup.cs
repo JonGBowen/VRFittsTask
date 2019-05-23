@@ -65,6 +65,8 @@ public class fingerColliderSetup : MonoBehaviour
 
     private void CreateCollider(GameObject finger)
     {
+        //System.Type mType = System.Type.GetType("PositionRotationTracker");
+        //finger.AddComponent(mType);
         CapsuleCollider collider = finger.AddComponent<CapsuleCollider>();
 
         collider.radius = Phalanges.Radius;
