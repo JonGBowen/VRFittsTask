@@ -10,10 +10,11 @@ using UXF;
 /// <summary>
 /// Example script used to test functionality of the Experiment Manager
 /// </summary>
-public class BasicExampleScript : MonoBehaviour {
+public class BasicExampleScript : MonoBehaviour
+{
 
     UXF.Session session;
-    
+
     /// <summary>
     /// generates the trials and blocks for the session
     /// </summary>
@@ -70,7 +71,7 @@ public class BasicExampleScript : MonoBehaviour {
 
         Debug.Log("Running trial!");
         session = trial.session;
-        
+
         // we can access our settings to (e.g.) modify our scene
         // for more information about retrieving settings see the documentation
 

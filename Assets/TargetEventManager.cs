@@ -34,6 +34,7 @@ public class TargetEventManager : MonoBehaviour
                 //OVRInput.SetControllerVibration(1, 1, OVRInput.Controller.LTouch);
                 OVRHaptics.LeftChannel.Preempt(clip);
             }
+            Debug.Log(targetID);
         }
     }
 
