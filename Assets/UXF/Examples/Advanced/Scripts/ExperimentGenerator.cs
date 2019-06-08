@@ -39,7 +39,7 @@ namespace UXF
                 {
                     Trial trial = block.trials[counterBecauseCSharpNoob];
                     trial.settings.SetValue("angle", i);
-                    trial.settings.SetValue("targetSizes", j);
+                    trial.settings.SetValue("targetSize", j);
                     counterBecauseCSharpNoob++;
                 }
             }
