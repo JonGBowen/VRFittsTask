@@ -40,7 +40,7 @@ public class TargetEventManager : MonoBehaviour
 
     private void OnTriggerExit(Collider col)
     {
-        Debug.Log("exit trigger " + col.gameObject.name);
+        //Debug.Log("exit trigger " + col.gameObject.name);
         if (col.gameObject.name == "hands:b_l_index3" || col.gameObject.name == "hands:b_r_index3")
         {
             GetComponent<Renderer>().material.color = Color.white;

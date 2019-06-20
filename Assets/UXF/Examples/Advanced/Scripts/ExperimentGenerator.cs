@@ -17,18 +17,19 @@ namespace UXF
 
             int numPracticeTrials = 3;
             // create two blocks
+            Block dummyBlock = session.CreateBlock(1);
             Block practiceBlock = session.CreateBlock(numPracticeTrials);
             Block block = session.CreateBlock(angles.Length * targetSizes.Length);
 
-            // add catch trials
+            Trial trial = dummyBlock.trials[0];
+            trial.settings.SetValue("angle", 0);
+            trial.settings.SetValue("targetSize", 0);
+            
             MakePracticeTrials(practiceBlock, angles);
             MakeTrials(block, angles, targetSizes);
 
         }
 
-        /// <summary>
-        /// Modify a block by adding several catch trials and then shuffling the trial list.
-        /// </summary>
         /// <param name="block"></param>
         void MakeTrials(Block block, double[] angles, double[] targetSizes)
         {
@@ -55,7 +56,7 @@ namespace UXF
             {
                 Trial trial = block.trials[counterBecauseCSharpNoob];
                 trial.settings.SetValue("angle", i);
-                trial.settings.SetValue("targetSizes", 0.015);
+                trial.settings.SetValue("targetSize", 0.015);
                 counterBecauseCSharpNoob++;
             }
 

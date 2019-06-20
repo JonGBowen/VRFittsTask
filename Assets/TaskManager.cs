@@ -6,6 +6,7 @@ using System.IO;
 
 // add the UXF namespace
 using UXF;
+
 public class TaskManager : MonoBehaviour
 {
 
@@ -15,6 +16,11 @@ public class TaskManager : MonoBehaviour
     public GameObject rightTarget;
     public GameObject targetFulcrum;
     public int jon;
+
+    public AudioClip StartExperimentSound;
+    public AudioClip CountDownSound;
+    public AudioClip TrialEndSound;
+    public Trial trialref;
 
     /// <summary>
     /// generates the trials and blocks for the session
@@ -29,9 +35,8 @@ public class TaskManager : MonoBehaviour
     {
         // we can call this function via the event "On Trial Begin", which is called when the trial starts
         // here we can imagine presentation of some stimulus
-
-        Debug.Log("Running trial!");
         session = trial.session;
+        Debug.Log(string.Format("Start trial {0}", trial.number));
 
         // we can access our settings to (e.g.) modify our scene
         // for more information about retrieving settings see the documentation
@@ -45,15 +50,13 @@ public class TaskManager : MonoBehaviour
         //trial.result["some_variable"] = observation;
 
         // end trial and prepare next trial in 1 second
-        Invoke("EndAndPrepare", 1);
+        Invoke("EndAndPrepare", 15);
     }
 
-
-    void EndAndPrepare()
+    public void EndAndPrepare()
     {
-        Debug.Log("Ending trial");
+        Debug.Log(string.Format("Ending trial {0}",session.CurrentTrial));
         session.CurrentTrial.End();
-
         if (session.CurrentTrial == session.LastTrial)
         {
             session.End();
@@ -61,31 +64,46 @@ public class TaskManager : MonoBehaviour
         else
         {
             SetupTrial();
+            GetComponent<AudioSource>().PlayOneShot(TrialEndSound);
         }
 
+    }
+
+    public void firstTrialHandler (Session sess)
+    {
+        Trial curTrial = sess.CurrentTrial;
+        //SetupTrial(curTrial);
     }
 
     public void SetupTrial() 
     {
         Trial trial = session.NextTrial;
         double angle = trial.settings.GetDouble("angle");
-        double targetsize = trial.settings.GetDouble("targetSize");
-        
+        double targetSize = trial.settings.GetDouble("targetSize");
 
         targetFulcrum.transform.rotation = Quaternion.Euler(0, (float)angle, 0);
-        leftTarget.transform.localScale.Set(new Vector3 ( (float)targetsize, 1, (float)targetsize) );
-        //leftTarget.Setup(correctTargetPosition == TargetPosition.Left);
-        //rightTarget.Setup(correctTargetPosition == TargetPosition.Right);
+        leftTarget.transform.localScale.Set((float)targetSize,1,(float)targetSize);
+
+        leftTarget.GetComponent<Renderer>().enabled = false;
+        rightTarget.GetComponent<Renderer>().enabled = false;
+
+        Invoke("StartTrialWarmup",3);
+        GetComponent<AudioSource>().PlayOneShot(CountDownSound);
+
     }
 
     void StartTrialWarmup()
-    {
+    { 
+        leftTarget.GetComponent<Renderer>().enabled = true;
+        rightTarget.GetComponent<Renderer>().enabled = true;
+
         Invoke("StartRecording", 5);
     }
 
     void StartRecording()
     {
         session.BeginNextTrial();
+        Invoke("EndAndPrepare",15);
     }
 
 }
