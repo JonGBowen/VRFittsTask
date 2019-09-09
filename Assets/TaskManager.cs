@@ -22,6 +22,8 @@ public class TaskManager : MonoBehaviour
     public AudioClip TrialEndSound;
     public Trial trialref;
 
+    public bool hackyEndTrialToggle;
+
     /// <summary>
     /// generates the trials and blocks for the session
     /// </summary>
@@ -50,21 +52,26 @@ public class TaskManager : MonoBehaviour
         //trial.result["some_variable"] = observation;
 
         // end trial and prepare next trial in 1 second
+        hackyEndTrialToggle = true;
         Invoke("EndAndPrepare", 15);
     }
 
     public void EndAndPrepare()
     {
-        Debug.Log(string.Format("Ending trial {0}",session.CurrentTrial));
-        session.CurrentTrial.End();
-        if (session.CurrentTrial == session.LastTrial)
+        if (hackyEndTrialToggle)
         {
-            session.End();
-        }
-        else
-        {
-            SetupTrial();
-            GetComponent<AudioSource>().PlayOneShot(TrialEndSound);
+            hackyEndTrialToggle = !hackyEndTrialToggle;
+            Debug.Log(string.Format("Ending trial {0}", session.CurrentTrial));
+            //session.CurrentTrial.End();
+            if (session.CurrentTrial == session.LastTrial)
+            {
+                session.End();
+            }
+            else
+            {
+                SetupTrial();
+                GetComponent<AudioSource>().PlayOneShot(TrialEndSound);
+            }
         }
 
     }
@@ -79,10 +86,13 @@ public class TaskManager : MonoBehaviour
     {
         Trial trial = session.NextTrial;
         double angle = trial.settings.GetDouble("angle");
-        double targetSize = trial.settings.GetDouble("targetSize");
+        float targetSize = (float)trial.settings.GetDouble("targetSize");
 
         targetFulcrum.transform.rotation = Quaternion.Euler(0, (float)angle, 0);
-        leftTarget.transform.localScale.Set((float)targetSize,1,(float)targetSize);
+        Vector3 scalez = leftTarget.transform.localScale;
+        scalez.Set(targetSize, 0.00025f, targetSize);
+        leftTarget.transform.localScale = scalez;
+        rightTarget.transform.localScale = scalez;
 
         leftTarget.GetComponent<Renderer>().enabled = false;
         rightTarget.GetComponent<Renderer>().enabled = false;
@@ -103,7 +113,7 @@ public class TaskManager : MonoBehaviour
     void StartRecording()
     {
         session.BeginNextTrial();
-        Invoke("EndAndPrepare",15);
+        //Invoke("EndAndPrepare",15);
     }
 
 }
