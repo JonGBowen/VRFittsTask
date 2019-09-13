@@ -27,7 +27,7 @@ namespace UXF
             
             MakePracticeTrials(practiceBlock, angles);
             MakeTrials(block, angles, targetSizes);
-
+            Debug.Log(block.trials);
         }
 
         /// <param name="block"></param>

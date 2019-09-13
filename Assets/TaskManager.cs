@@ -39,6 +39,11 @@ public class TaskManager : MonoBehaviour
         // here we can imagine presentation of some stimulus
         session = trial.session;
         Debug.Log(string.Format("Start trial {0}", trial.number));
+        double angle = trial.settings.GetDouble("angle");
+        float targetSize = (float)trial.settings.GetDouble("targetSize");
+        Debug.Log(string.Format("trial rotation: {0} ", angle));
+        Debug.Log(string.Format("trial target size: {0} ", targetSize));
+
 
         // we can access our settings to (e.g.) modify our scene
         // for more information about retrieving settings see the documentation
@@ -62,7 +67,7 @@ public class TaskManager : MonoBehaviour
         {
             hackyEndTrialToggle = !hackyEndTrialToggle;
             Debug.Log(string.Format("Ending trial {0}", session.CurrentTrial));
-            //session.CurrentTrial.End();
+            session.CurrentTrial.End();
             if (session.CurrentTrial == session.LastTrial)
             {
                 session.End();
